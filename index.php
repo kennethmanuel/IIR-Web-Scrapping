@@ -4,29 +4,34 @@ require 'vendor/autoload.php';
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-// 1. scrap html // 
+// 3. scrap multiple html pages
 $client = new Client();
+$data = array();
+for ($i = 1; $i <= 10; $i++) {
+    // 1. scrap html // 
 
-$res = $client->request('GET', 'https://quotes.toscrape.com/');
-$html = $res->html();
-// echo $html;
+    $res = $client->request('GET', "https://quotes.toscrape.com/page/{$i}/");
+    $html = $res->html();
+    // echo $html;
 
-// 2. scrap html with node filtering // 
-$crawler = new Crawler($html);
+    // 2. scrap html with node filtering // 
+    $crawler = new Crawler($html);
 
-$items = $crawler
-    ->filter('.col-md-8 > .quote')
-    ->each(function (Crawler $node, $i) {
-        // echo $node->html();
-        $quote = $node->filter('span.text')->text();
-        $author = $node->filter('span > small')->text();
-        $item = [
-            'quote' => $quote,
-            'author' => $author
-        ];
-        return $item;
-    });
+    $items = $crawler
+        ->filter('.col-md-8 > .quote')
+        ->each(function (Crawler $node, $i) {
+            // echo $node->html();
+            $quote = $node->filter('span.text')->text();
+            $author = $node->filter('span > small')->text();
+            $item = [
+                'quote' => $quote,
+                'author' => $author
+            ];
+            return $item;
+        });
 
+    $data = array_merge($data, $items);
+}
 // print_r($items);
 
 
@@ -51,7 +56,7 @@ $items = $crawler
 
 <body>
     <?php
-    foreach ($items as $item) {
+    foreach ($data as $item) {
         foreach ($item as $key => $value) {
             echo "{$key}: $value";
             echo "<br>";
