@@ -35,7 +35,7 @@ for ($i = 1; $i <= 10; $i++) {
 // print_r($items);
 
 
-// $file = fopen('images.csv', 'w');
+// $file = fopen('quotes.csv', 'w');
 
 // foreach ($items as $item) {
 //     fputcsv($file, $item);
