@@ -47,12 +47,11 @@ for ($i = 1; $i <= 10; $i++) {
 
 <body>
     <?php
+    $file = fopen('data.csv', 'w');
     foreach ($data as $item) {
-        foreach ($item as $key => $value) {
-            echo "{$key}: $value";
-            echo "<br>";
-        }
+        fputcsv($file, $item);
     }
+    fclose($file);
     ?>
 </body>
 

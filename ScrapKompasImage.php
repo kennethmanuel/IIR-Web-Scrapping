@@ -47,11 +47,11 @@ for ($i = 1; $i <= 10; $i++) {
 
 <body>
     <?php
+    $i = 1;
     foreach ($data as $item) {
-        foreach ($item as $key => $value) {
-            echo "{$key}: $value";
-            echo "<br>";
-        }
+        $image_content = file_get_contents($item['img']);
+        file_put_contents('images/' . $i . '.png', $image_content);
+        $i++;
     }
     ?>
 </body>
